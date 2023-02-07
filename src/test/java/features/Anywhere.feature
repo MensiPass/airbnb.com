@@ -4,8 +4,8 @@ Feature:Finding apartment anywhere
     Given User navigate to airbnb website
     @AnywhereRegionStays
     Scenario: User rents apartment on airbnb website
-      When User selects region "Southeast Asia" or types a location "Bordeaux, France"
-      And User selects check-in date "Apr 28 2023" and check-out date "May 7 2023"
-      And User adds guests, adults "2" child "0", infants "0" and pets "0"
+      When User selects region "Southeast Asia" or types a location ""
+      And User selects check-in date "02/16/2023" and check-out date "04/16/2023"
+      And User adds guests, adults "2" child "2", infants "1" and pets "1"
       And User clicks search button
 

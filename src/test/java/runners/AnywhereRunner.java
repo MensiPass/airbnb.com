@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
         features="src/test/java/features",
         glue="steps",
         tags="@AnywhereRegionStays",
-        plugin={"io.qameta.allure.cucumber7jvm.AllureCucumber6Jvm"}
+        plugin={"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
 )
 public class AnywhereRunner extends AbstractTestNGCucumberTests {
     @Override

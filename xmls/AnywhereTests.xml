@@ -3,7 +3,7 @@
 
 <suite name="Airbnb tests" thread-count="1" data-provider-thread-count="1">
     <parameter name="browser" value="CHROME"></parameter>
-    <parameter name="env" value="PROD"></parameter>
+    <parameter name="env" value="AIRBNB"></parameter>
     <parameter name="quit" value="yes"></parameter>
     <test name="Airbnb apartment rent tests">
         <classes>

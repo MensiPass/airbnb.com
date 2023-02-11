@@ -46,4 +46,9 @@ public class AnywhereSteps extends BaseSteps {
     public void userClicksSearchButton() throws Exception {
         new AnywhereStaysPage(driver).search();
     }
+
+    @And("User selects flexible dates option and stays option {string} and month {string}")
+    public void userSelectsFlexibleDatesOptionAndStaysOptionAndMonth(String dates, String month) throws Exception {
+        new AnywhereStaysPage(driver).selectFlexibleDates(dates,month);
+    }
 }

@@ -14,10 +14,10 @@ public class AnywhereStaysPage extends BasePage {
         super(driver);
         PageFactory.initElements(driver,this);
     }
-    @FindBy(xpath ="//div[@data-testid='little-search']/button/div[text()='Anywhere']/parent::button")
+    @FindBy(xpath ="//div[@data-testid='little-search']//button//div[text()='Anywhere']")
     WebElement anywhereButton;
-    @FindBy(xpath ="//div[@id='locationInspirationsSectionID']//span[text()='Southeast Asia']//parent::button//div")
-    WebElement regionField;
+    String regionField ="//div[@id='locationInspirationsSectionID']//span[text()='$$']//parent::label";
+
     @FindBy(xpath ="//button[@aria-label='Move forward to switch to the next month.']")
     WebElement nextArrowCalendar;
     String date = "//div[@data-testid='calendar-day-$$']"; //date to select
@@ -43,11 +43,22 @@ public class AnywhereStaysPage extends BasePage {
     WebElement searchButton;
     @FindBy(xpath = "//div[@data-testid='little-search']/button[1]/div")
     String searchResults;
+    @FindBy(css = "[id='tab--tabs--1']") //flex date button in calendar
+    WebElement flexDates;
+   String flexWeekEnd = "label[id='flexible_trip_lengths-weekend_trip']"; //flex date weekend option in calendar
 
+    String flexWeek = "label[id='flexible_trip_lengths-one_week']"; //flex date week option in calendar
 
+    String flexMonth = "label[id='flexible_trip_lengths-one_month']"; //flex date month option in calendar
+
+    String flexMonthSelect = "//div[@id='flexible_trip_dates-$$']";//select month for flex dates option
+    @FindBy(xpath ="//button[@aria-label='Next']")
+    WebElement nextArrowFlexCalendar;
+    @FindBy(xpath ="//button[@aria-label='Previous']")
+    WebElement previousArrowFlexCalendar;
     public void selectRegion(String region) throws Exception {
         click(anywhereButton);
-        click(regionField);
+        click(driver.findElement(By.xpath(updateXpathValue(regionField, region))));
     }
     public void setRegionLocation(String region, String location) throws Exception {
         if(region!=null || !(region.isEmpty())) {
@@ -117,6 +128,12 @@ public class AnywhereStaysPage extends BasePage {
     public void clickCalendarNext() throws Exception {
         click(nextArrowCalendar, "Calendar Next Arrow");
     }
+    public void clickFlexCalendarNext() throws Exception {
+        click(nextArrowFlexCalendar, "Flex Calendar Next Arrow");
+    }
+    public void clickFlexCalendarPrevious() throws Exception {
+        click(previousArrowFlexCalendar, "Flex Calendar Previous Arrow");
+    }
     public void addGuests(String adults, String children, String infants, String pets) throws Exception {
         click(guestsInput,"Click guests input field");
         Thread.sleep(2000);
@@ -143,6 +160,31 @@ public class AnywhereStaysPage extends BasePage {
     public void addPets(String pets) throws Exception {
         for (int i = 0; i < Integer.parseInt(pets); i++) {
             click(petsAdd, "Click + Pets");
+        }
+    }
+    public void selectFlexibleDates(String dates,String month) throws Exception {
+        openCalendar();
+        click(flexDates);
+        dates=dates.toLowerCase();
+        switch(dates){
+            case "weekend":{ click(driver.findElement(By.cssSelector(updateXpathValue(flexWeekEnd, dates)))); } break;
+            case "week":{ click(driver.findElement(By.cssSelector(updateXpathValue(flexWeek, dates)))); } break;
+            case "month":{ click(driver.findElement(By.cssSelector(updateXpathValue(flexMonth, dates)))); } break;
+            default: throw new Exception("Option "+dates+" for flexible date is not supported!");
+        }
+
+        while (true) {
+            if (elementExistsByXpath(updateXpathValue(flexMonthSelect, month.toLowerCase()))) {
+                if ((driver.findElement(By.xpath(updateXpathValue(flexMonthSelect, month.toLowerCase())))).isDisplayed()) {
+                    driver.findElement(By.xpath(updateXpathValue(flexMonthSelect, month.toLowerCase()))).click();
+                    break;
+                } else {
+
+                    clickFlexCalendarNext();
+                }
+            } else {
+                clickFlexCalendarNext();
+            }
         }
     }
     public void search() throws Exception {

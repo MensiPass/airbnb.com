@@ -9,3 +9,10 @@ Feature:Finding apartment anywhere
       And User adds guests, adults "2" child "2", infants "1" and pets "1"
       And User clicks search button
 
+  @AnyweekStays
+  Scenario: User rents apartment on airbnb website
+    When User selects region "Southeast Asia" or types a location ""
+    And User selects flexible dates option and stays option "week" and month "September"
+    And User adds guests, adults "2" child "2", infants "1" and pets "1"
+    And User clicks search button
+

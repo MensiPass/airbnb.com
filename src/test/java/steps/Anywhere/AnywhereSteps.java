@@ -1,4 +1,4 @@
-package steps;
+package steps.Anywhere;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.testng.Reporter;
 import pages.AnywhereStaysPage;
+import steps.BaseSteps;
 
 public class AnywhereSteps extends BaseSteps {
     String browser= Reporter.getCurrentTestResult().getTestContext().getCurrentXmlTest().getParameter("browser");

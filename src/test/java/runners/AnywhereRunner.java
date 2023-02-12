@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 @Test
 @CucumberOptions(
         features="src/test/java/features",
-        glue="steps",
+        glue="steps/Anywhere",
         tags="@AnywhereRegionStays",
         plugin={"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
 )

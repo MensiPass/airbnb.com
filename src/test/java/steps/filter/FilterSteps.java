@@ -61,18 +61,22 @@ public class FilterSteps extends BaseSteps {
     }
 
     @And("User selects accessibility features: guest entrance and parking {string}, bedroom {string}, bathroom {string} and adaptive equipment {string}")
-    public void userSelectsAccessibilityFeaturesGuestEntranceAndParkingBedroomBathroomAndAdaptiveEquipment(String entranceParking, String accessBedroom, String accessBaths, String addaptiveEquipment) {
+    public void userSelectsAccessibilityFeaturesGuestEntranceAndParkingBedroomBathroomAndAdaptiveEquipment(String entranceParking, String accessBedroom, String accessBaths, String addaptiveEquipment) throws Exception {
+        new FilterPage(driver).setAccessibility(entranceParking,accessBedroom,accessBaths,addaptiveEquipment);
     }
 
     @And("User selects top tier stays superhost {string} and airbnb plus {string}")
-    public void userSelectsTopTierStaysSuperhostAndAirbnbPlus(String superHost, String plus) {
+    public void userSelectsTopTierStaysSuperhostAndAirbnbPlus(String superHost, String plus) throws Exception {
+        new FilterPage(driver).setTopTierStays(superHost,plus);
     }
 
     @And("User selects host language {string}")
-    public void userSelectsHostLanguage(String lang) {
+    public void userSelectsHostLanguage(String lang) throws Exception {
+        new FilterPage(driver).setHostLanguage(lang);
     }
 
     @And("User clicks show homes button to  search apartments for specified data")
-    public void userClicksShowHomesButtonToSearchApartmentsForSpecifiedData() {
+    public void userClicksShowHomesButtonToSearchApartmentsForSpecifiedData() throws Exception {
+        new FilterPage(driver).filterSearch();
     }
 }

@@ -199,7 +199,6 @@ public class FilterPage extends BasePage {
         Thread.sleep(5000);
         if (searchFilterResults.size() >0){
             click(searchFilterResults.get(1), "Click second result");
-        }
         Thread.sleep(5000);
 
         Set<String> handles=driver.getWindowHandles();
@@ -208,8 +207,7 @@ public class FilterPage extends BasePage {
                 driver.switchTo().window(actual);
             }
         }
-
-      //  System.out.println(driver.getCurrentUrl());
+        //System.out.println(driver.getCurrentUrl());
         //assert some parameters
         for(int i = 0; i<searchAssertSecResult.size(); i++){
             if(searchAssertSecResult.get(i).getText().contains("bedrooms") || searchAssertSecResult.get(i).getText().contains("bedroom"))
@@ -228,6 +226,9 @@ public class FilterPage extends BasePage {
                 Assert.assertTrue(Integer.parseInt(numbath[0])>=1,"Verify that there are correct number of baths");
             }
         }
-       //Assert.assertTrue(url.contains(res),"Verify that url for destination contains: "+res);
+        }
+        else {
+            System.out.println("No results for selected filters!");
+        }
     }
 }

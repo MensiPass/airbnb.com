@@ -88,6 +88,26 @@ public class BasePage {
             }
         }
     }
+    public String getText(WebElement element, String log) throws Exception {
+        driverWait = new WebDriverWait(driver,  Duration.ofSeconds(waitTime));
+        Actions actions = new Actions(driver);
+        String returnedText="";
+        int retryCount = 0;
+        while (retryCount<numRetries) {
+            try {
+                returnedText=element.getText();
+                break;
+            } catch (Exception e) {
+                retryCount++;
+                System.out.println("Retry: "+retryCount+" to get text: "+log);
+                if(retryCount==numRetries){
+                    e.printStackTrace();
+                    throw new Exception(getCurrentTimeDate()+" Failed to get text: "+log);
+                }
+            }
+        }
+        return returnedText;
+    }
     public void click(WebElement element, String log) throws Exception {
         driverWait = new WebDriverWait(driver, Duration.ofSeconds(waitTime));
         Actions actions = new Actions(driver);

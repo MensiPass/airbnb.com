@@ -82,7 +82,6 @@ public class AnywhereStaysPage extends BasePage {
     }
     public void setChechInCheckOut(String checkin, String checkout) throws Exception {
         openCalendar();
-
         String checkInXpath = updateXpathValue(date, checkin);
         String checkOutXpath = updateXpathValue(date, checkout);
 
@@ -94,7 +93,6 @@ public class AnywhereStaysPage extends BasePage {
                 clickCalendarNext();
             }
         }
-
         while (true) {
             if (elementExistsByXpath(checkOutXpath)) {
                 if ((driver.findElement(By.xpath(checkOutXpath))).isDisplayed()) {
@@ -102,7 +100,6 @@ public class AnywhereStaysPage extends BasePage {
                     break;
                 }
                 else {
-
                         clickCalendarNext();
                     }
             }
@@ -172,7 +169,6 @@ public class AnywhereStaysPage extends BasePage {
             case "month":{ click(driver.findElement(By.cssSelector(updateXpathValue(flexMonth, dates)))); } break;
             default: throw new Exception("Option "+dates+" for flexible date is not supported!");
         }
-
         while (true) {
             if (elementExistsByXpath(updateXpathValue(flexMonthSelect, month.toLowerCase()))) {
                 if ((driver.findElement(By.xpath(updateXpathValue(flexMonthSelect, month.toLowerCase())))).isDisplayed()) {
@@ -190,8 +186,8 @@ public class AnywhereStaysPage extends BasePage {
     public void search() throws Exception {
         click(searchButton,"Click search");
         Thread.sleep(5000);
-        String url=driver.getCurrentUrl();
-        String res=(driver.findElement(By.xpath("//div[@data-testid='little-search']//button[1]//div"))).getText();
+        String url=driver.getCurrentUrl();//get current tab or window url
+        String res=(driver.findElement(By.xpath("//div[@data-testid='little-search']//button[1]//div"))).getText();//get results of search,get text
         res=res.replace(" ","-");
         Assert.assertTrue(url.contains(res),"Verify that url for destination contains: "+res);
     }

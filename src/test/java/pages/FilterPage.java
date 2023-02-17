@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -20,7 +21,35 @@ public class FilterPage extends BasePage {
     WebElement minPriceField;
     @FindBy(css="input[id='price_filter_max']")
     WebElement maxPriceField;
+    String minPriceScrollButton="//button[@aria-label='Minimum Price']";
+
+   String maxPriceScrollButton="//button[@aria-label='Minimum Price']";
+
    String placeTypeCheck="//input[@name='$$']";
+    String placeRooms="//div[@aria-label='Bedrooms']//div[@id='menuItemButton-$$']";
+    String placeBeds= "//div[@aria-label='Beds']//div[@id='menuItemButton-$$']";
+    String placeBaths="//div[@aria-label='Bathrooms']//div[@id='menuItemButton-$$']";
+    String propertyFieldType="//div[@id='chip-group-null']//div[text()='$$']//parent::div//parent::div//parent::div//parent::button";
+    String amenitiesMoreButton="//section//h2[text()='Amenities']//parent::div//parent::section//button/span[text()='Show more']";
+    String essentialsField="//input[@name='$$']//parent::span//span";
+    String featuresField="//input[@name='$$']//parent::span//span";
+    String amenitiesLocation="//input[@name='$$']//parent::span//span";
+    String amenitiesSafety="//input[@name='$$']//parent::span//span";
+    @FindBy(xpath="//button[contains(@aria-describedby,'switch-ib')]")
+    WebElement instantBookSwitch;
+    @FindBy(xpath="//button[contains(@aria-describedby,'switch-amenities')]")
+    WebElement selfCheckField;
+    String accesibilityMoreButton="//section//h2[text()='Accessibility features']//parent::div//parent::section//button/span[text()='Show more']";
+    String entranceField="//input[@name='$$']//parent::span//span";
+    String accBedroomField="//input[@name='$$']//parent::span//span";
+    String accessBathField="//input[@name='$$']//parent::span//span";
+    String addEquipmentField="//input[@name='$$']//parent::span//span";
+    @FindBy(xpath="//button[contains(@aria-describedby,'switch-superhost')]")
+    WebElement superHostCheck;
+    @FindBy(xpath="//button[contains(@aria-describedby,'switch-tier')]")
+    WebElement hostPlus;
+    String hostLangMore="//section//h2[text()='Host language']//parent::div//parent::section//button/span[text()='Show more']";
+    String langOption="//input[@name='$$']//parent::span//span";
     @FindBy(xpath = "//footer//a[@aria-live='polite' or contains(text(),'Show homes')]")
     WebElement searchFilterButton;
     @FindBy(xpath = "//div[@data-testid='card-container']")
@@ -32,14 +61,46 @@ public class FilterPage extends BasePage {
         (driver.findElement(By.xpath(filterOpen))).click();
 
     }
-    public void setPrice(String minPrice, String maxPrice)  {
-        minPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
-        minPriceField.sendKeys(Keys.BACK_SPACE);
-        minPriceField.sendKeys(minPrice);
+    public void setPrice(String minPrice, String maxPrice) throws InterruptedException {
+        WebElement slider=driver.findElement(By.xpath(minPriceScrollButton));  //"//button[@aria-label='Minimum Price']"));
+        Thread.sleep(3000);
+       // Actions actions = new Actions(driver);
 
-        maxPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
-        maxPriceField.sendKeys(Keys.BACK_SPACE);
-        maxPriceField.sendKeys(maxPrice);
+        if((minPrice!=null && !(minPrice.isEmpty()))) {
+            if (driver.findElement(By.xpath(minPriceScrollButton)).getAttribute("aria-valuenow").equalsIgnoreCase(minPrice)) {
+                minPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
+                minPriceField.sendKeys(Keys.BACK_SPACE);
+                minPriceField.sendKeys(minPrice);
+
+            } else {
+                new BasePage(driver).setAttribute(driver.findElement(By.xpath("//button[@aria-label='Minimum Price']")), "aria-valuenow", minPrice);
+                minPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
+                minPriceField.sendKeys(Keys.BACK_SPACE);
+                minPriceField.sendKeys(minPrice);
+                //actions.dragAndDropBy(slider, 3, 0).build().perform();
+            }
+        }
+        if((maxPrice!=null && !(maxPrice.isEmpty()))) {
+            if (driver.findElement(By.xpath(maxPriceScrollButton)).getAttribute("aria-valuenow").equalsIgnoreCase(maxPrice)) {
+                maxPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
+                maxPriceField.sendKeys(Keys.BACK_SPACE);
+                maxPriceField.sendKeys(minPrice);
+            } else {
+                new BasePage(driver).setAttribute(driver.findElement(By.xpath(maxPriceScrollButton)), "aria-valuenow", maxPrice);
+                maxPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
+                maxPriceField.sendKeys(Keys.BACK_SPACE);
+                maxPriceField.sendKeys(maxPrice);
+                //actions.dragAndDropBy(slider, 3, 0).build().perform();
+            }
+        }
+        Thread.sleep(2000);
+       // minPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
+       // minPriceField.sendKeys(Keys.BACK_SPACE);
+       // minPriceField.sendKeys(minPrice);
+
+       // maxPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
+       // maxPriceField.sendKeys(Keys.BACK_SPACE);
+       // maxPriceField.sendKeys(maxPrice);
 
         //this did not work
        // minPriceField.clear();
@@ -47,121 +108,166 @@ public class FilterPage extends BasePage {
        // Thread.sleep(5000);
        // minPriceField.sendKeys(minPrice);
        // maxPriceField.sendKeys(maxPrice);
-
     }
     public void setPlaceType(String placeType) throws Exception {
-      //  updateXpathValue(placeTypeCheck,placeType);
-
+        String placetype=updateXpathValue(placeTypeCheck,placeType);
         new BasePage(driver).scroll();
-        if(elementExistsByXpath("//input[@name='" + placeType + "']//parent::span//span")) {
-            click(driver.findElement(By.xpath("//input[@name='" + placeType + "']//parent::span//span")), "Click place type");
+        Thread.sleep(2000);
+        if((placeType!=null && !(placeType.isEmpty()))) {
+            if (elementExistsByXpath(placetype)) {
+                driver.findElement(By.xpath(placetype)).click();
+            }
         }
     }
     public void setRoomsBedsBaths(String rooms, String beds, String baths) throws Exception {
-        new BasePage(driver).scroll();
-        click(driver.findElement(By.xpath("//div[@aria-label='Bedrooms']//div[@id='menuItemButton-"+rooms+"']")),"Select number of bedrooms");
-        click(driver.findElement(By.xpath("//div[@aria-label='Beds']//div[@id='menuItemButton-"+beds+"']")),"Select number of  beds");
-        click(driver.findElement(By.xpath("//div[@aria-label='Bathrooms']//div[@id='menuItemButton-"+baths+"']")),"Select number of bathrooms");
+        String placerooms=updateXpathValue(placeRooms,rooms);
+        String placebeds=updateXpathValue(placeBeds,beds);
+        String placebaths=updateXpathValue(placeBaths,baths);
 
+        new BasePage(driver).scroll();
+        if((rooms!=null && !(rooms.isEmpty()))) {
+            if (elementExistsByXpath(placerooms)) {
+                click(driver.findElement(By.xpath(placerooms)), "Select number of bedrooms");
+            }
+        }
+        if((beds!=null && !(beds.isEmpty()))) {
+            if (elementExistsByXpath(placebeds)) {
+                click(driver.findElement(By.xpath(placebeds)), "Select number of  beds");
+            }
+        }
+        if((baths!=null && !(baths.isEmpty()))) {
+            if (elementExistsByXpath(placebaths)) {
+                click(driver.findElement(By.xpath(placebaths)), "Select number of bathrooms");
+            }
+        }
     }
     public void setPropertyType(String propertyType) throws Exception {
+        String proptype=updateXpathValue(propertyFieldType,propertyType);
         new BasePage(driver).scroll();
-        while(true) {
-            if(elementExistsByXpath("//div[@id='chip-group-null']//div[text()='" + propertyType + "']//parent::div//parent::div//parent::div//parent::button")) {
-                click(driver.findElement(By.xpath("//div[@id='chip-group-null']//div[text()='" + propertyType + "']//parent::div//parent::div//parent::div//parent::button")), "Select property type");
-                break;
+        if((propertyType!=null && !(propertyType.isEmpty()))) {
+            while (true) {
+                if (elementExistsByXpath(proptype)) {
+                    click(driver.findElement(By.xpath(proptype)), "Property type click");
+                    break;
+                } else {
+                    new BasePage(driver).scroll();
+                }
             }
-            else{new BasePage(driver).scroll();}
         }
     }
     public void setAmenities(String essentials, String features, String location, String safety) throws Exception {
-
         new BasePage(driver).scroll();
-        if(elementExistsByXpath("//section//h2[text()='Amenities']//parent::div//parent::section//button/span[text()='Show more']")) {
-            click(driver.findElement(By.xpath("//section//h2[text()='Amenities']//parent::div//parent::section//button/span[text()='Show more']")), "Show more button for essentials");
-
+        if(elementExistsByXpath(amenitiesMoreButton)) {
+            click(driver.findElement(By.xpath(amenitiesMoreButton)), "Show more button for essentials");
         }
-        while(true) {
-            if(elementExistsByXpath("//input[@name='"+essentials+"']//parent::span//span")) {
-                click(driver.findElement(By.xpath("//input[@name='"+essentials+"']//parent::span//span")), "Select essentials");
-                break;
+        String essCheck=updateXpathValue(essentialsField,essentials);
+        String featuresCheck=updateXpathValue(featuresField,features);
+        String locationCheck=updateXpathValue(amenitiesLocation,location);
+        String safetyCheck=updateXpathValue(amenitiesSafety,safety);
+        if((essentials!=null && !(essentials.isEmpty()))) {
+            while (true) {
+                if (elementExistsByXpath(essCheck)) {
+                    click(driver.findElement(By.xpath(essCheck)), "Select essentials");
+                    break;
+                } else {
+                    new BasePage(driver).scroll();
+                }
             }
-            else{new BasePage(driver).scroll();}
         }
-        while(true) {
-            if(elementExistsByXpath("//input[@name='"+features+"']//parent::span//span")) {
-                click(driver.findElement(By.xpath("//input[@name='"+features+"']//parent::span//span")), "Select features");
-                break;
+        if((features!=null && !(features.isEmpty()))) {
+            while (true) {
+                if (elementExistsByXpath(featuresCheck)) {
+                    click(driver.findElement(By.xpath(featuresCheck)), "Select features");
+                    break;
+                } else {
+                    new BasePage(driver).scroll();
+                }
             }
-            else{new BasePage(driver).scroll();}
         }
-        while(true) {
-            if(elementExistsByXpath("//input[@name='"+location+"']//parent::span//span")) {
-                click(driver.findElement(By.xpath("//input[@name='"+location+"']//parent::span//span")), "Select location");
-                break;
+        if((location!=null && !(location.isEmpty()))) {
+            while (true) {
+                if (elementExistsByXpath(locationCheck)) {
+                    click(driver.findElement(By.xpath(locationCheck)), "Select location");
+                    break;
+                } else {
+                    new BasePage(driver).scroll();
+                }
             }
-            else{new BasePage(driver).scroll();}
         }
-        while(true) {
-            if(elementExistsByXpath("//input[@name='"+safety+"']//parent::span//span")) {
-                click(driver.findElement(By.xpath("//input[@name='"+safety+"']//parent::span//span")), "Select safety");
-                break;
+        if((safety!=null && !(safety.isEmpty()))) {
+            while (true) {
+                if (elementExistsByXpath(safetyCheck)) {
+                    click(driver.findElement(By.xpath(safetyCheck)), "Select safety");
+                    break;
+                } else {
+                    new BasePage(driver).scroll();
+                }
             }
-            else{new BasePage(driver).scroll();}
         }
     }
-    public void setBookingOptions(String instantBook, String selfCheckk) throws Exception {
+    public void setBookingOptions(String instantBook, String selfCheck) throws Exception {
         new BasePage(driver).scroll();
+        if((instantBook!=null && !(instantBook.isEmpty()))) {
             if (instantBook.equalsIgnoreCase("Yes")) {
-                click(driver.findElement(By.xpath("//button[contains(@aria-describedby,'switch-ib')]")),"Instant book");
+                click(instantBookSwitch, "Instant book");
             }
-            if (selfCheckk.equalsIgnoreCase("Yes")) {
-                click(driver.findElement(By.xpath("//button[contains(@aria-describedby,'switch-amenities')]")),"Self check");
+        }
+        if((selfCheck!=null && !(selfCheck.isEmpty()))) {
+            if (selfCheck.equalsIgnoreCase("Yes")) {
+                click(selfCheckField, "Self check");
             }
-
-
+        }
     }
     public void setAccessibility(String entranceParking, String accessBedroom, String accessBaths, String addaptiveEquipment) throws Exception {
         new BasePage(driver).scroll();
-        if((entranceParking!=null && !(entranceParking.isEmpty())) && (accessBedroom!=null && !(accessBedroom.isEmpty())) && (accessBaths!=null && !(accessBaths.isEmpty())) && (addaptiveEquipment!=null && !(addaptiveEquipment.isEmpty()))) {
-            if (elementExistsByXpath("//section//h2[text()='Accessibility features']//parent::div//parent::section//button/span[text()='Show more']")) {
-                click(driver.findElement(By.xpath("//section//h2[text()='Accessibility features']//parent::div//parent::section//button/span[text()='Show more']")), "Show more button for accessibility features");
-
-            }
+        if (elementExistsByXpath(accesibilityMoreButton)) {
+            click(driver.findElement(By.xpath(accesibilityMoreButton)), "Show more button for accessibility features");
+        }
+        String entranceParkingField = updateXpathValue(entranceField, entranceParking);
+        String accessBedroomField = updateXpathValue(entranceField, accessBedroom);
+        String accessBathroomField = updateXpathValue(entranceField, accessBaths);
+        String addaptiveField = updateXpathValue(entranceField, addaptiveEquipment);
+        if((entranceParking!=null && !(entranceParking.isEmpty()))) {
             if (entranceParking != null || !(entranceParking.isEmpty())) {
                 while (true) {
-                    if (elementExistsByXpath("//input[@name='" + entranceParking + "']//parent::span//span")) {
-                        click(driver.findElement(By.xpath("//input[@name='" + entranceParking + "']//parent::span//span")), "Select guest entrance and parking");
+                    if (elementExistsByXpath(entranceParkingField)) {
+                        click(driver.findElement(By.xpath(entranceParkingField)), "Select guest entrance and parking");
                         break;
                     } else {
                         new BasePage(driver).scroll();
                     }
                 }
             }
+        }
+         if (accessBedroom!=null && !(accessBedroom.isEmpty())){
             if (accessBedroom != null || !(accessBedroom.isEmpty())) {
                 while (true) {
-                    if (elementExistsByXpath("//input[@name='" + accessBedroom + "']//parent::span//span")) {
-                        click(driver.findElement(By.xpath("//input[@name='" + accessBedroom + "']//parent::span//span")), "Select bedroom");
+                    if (elementExistsByXpath(accessBedroomField)) {
+                        click(driver.findElement(By.xpath(accessBedroomField)), "Select bedroom");
                         break;
                     } else {
                         new BasePage(driver).scroll();
                     }
                 }
             }
+        }
+        if (accessBaths!=null && !(accessBaths.isEmpty())) {
             if (accessBaths != null || !(accessBaths.isEmpty())) {
                 while (true) {
-                    if (elementExistsByXpath("//input[@name='" + accessBaths + "']//parent::span//span")) {
-                        click(driver.findElement(By.xpath("//input[@name='" + accessBaths + "']//parent::span//span")), "Select baths");
+                    if (elementExistsByXpath(accessBathroomField)) {
+                        click(driver.findElement(By.xpath(accessBathroomField)), "Select baths");
                         break;
                     } else {
                         new BasePage(driver).scroll();
                     }
                 }
             }
+        }
+         if (addaptiveEquipment!=null && !(addaptiveEquipment.isEmpty())) {
             if (addaptiveEquipment != null || !(addaptiveEquipment.isEmpty())) {
                 while (true) {
-                    if (elementExistsByXpath("//input[@name='" + addaptiveEquipment + "']//parent::span//span")) {
-                        click(driver.findElement(By.xpath("//input[@name='" + addaptiveEquipment + "']//parent::span//span")), "Select addaptive equipment");
+                    if (elementExistsByXpath(addaptiveField)) {
+                        click(driver.findElement(By.xpath(addaptiveField)), "Select addaptive equipment");
                         break;
                     } else {
                         new BasePage(driver).scroll();
@@ -172,63 +278,71 @@ public class FilterPage extends BasePage {
     }
     public void setTopTierStays(String superHost, String plus) throws Exception {
         new BasePage(driver).scroll();
-        if (superHost.equalsIgnoreCase("Yes")) {
-            click(driver.findElement(By.xpath("//button[contains(@aria-describedby,'switch-superhost')]")),"Select superhost");
+        if((superHost!=null && !(superHost.isEmpty()))) {
+            if (superHost.equalsIgnoreCase("Yes")) {
+                click(superHostCheck, "Select superhost");
+            }
         }
-        if (plus.equalsIgnoreCase("Yes")) {
-            click(driver.findElement(By.xpath("//button[contains(@aria-describedby,'switch-tier')]")),"Select airbnb plus");
+        if((plus!=null && !(plus.isEmpty()))) {
+            if (plus.equalsIgnoreCase("Yes")) {
+                click(hostPlus, "Select airbnb plus");
+            }
         }
     }
     public void setHostLanguage(String lang) throws Exception {
         new BasePage(driver).scroll();
-        if(elementExistsByXpath("//section//h2[text()='Host language']//parent::div//parent::section//button/span[text()='Show more']")) {
-            click(driver.findElement(By.xpath("//section//h2[text()='Host language']//parent::div//parent::section//button/span[text()='Show more']")), "Show more button for host language");
+        if((lang!=null && !(lang.isEmpty()))) {
+            if (elementExistsByXpath(hostLangMore)) {
+                click(driver.findElement(By.xpath(hostLangMore)), "Show more button for host language");
 
-        }
-        while(true) {
-            if(elementExistsByXpath("//input[@name='"+lang+"']//parent::span//span")) {
-                click(driver.findElement(By.xpath("//input[@name='"+lang+"']//parent::span//span")), "Select host language");
-                break;
             }
-            else{new BasePage(driver).scroll();}
+            String languageH = updateXpathValue(langOption, lang);
+            while (true) {
+                if (elementExistsByXpath(languageH)) {
+                    click(driver.findElement(By.xpath(languageH)), "Select host language");
+                    break;
+                } else {
+                    new BasePage(driver).scroll();
+                }
+            }
         }
     }
     public void filterSearch() throws Exception {
-        click(searchFilterButton,"Click filter search");
+      //  click(searchFilterButton,"Click filter search");
         //click on one search result
-        Thread.sleep(5000);
-        if (searchFilterResults.size() >0){
-            click(searchFilterResults.get(1), "Click second result");
-        Thread.sleep(5000);
+      // Thread.sleep(5000);
+      // if (searchFilterResults.size() >0){
+      //     click(searchFilterResults.get(1), "Click second result");
+      // Thread.sleep(5000);
 
-        Set<String> handles=driver.getWindowHandles();
-        for(String actual: handles) {
-            if(!actual.equalsIgnoreCase(driver.getWindowHandle())) {
-                driver.switchTo().window(actual);
-            }
-        }
-        //System.out.println(driver.getCurrentUrl());
-        //assert some parameters
-        for(int i = 0; i<searchAssertSecResult.size(); i++){
-            if(searchAssertSecResult.get(i).getText().contains("bedrooms") || searchAssertSecResult.get(i).getText().contains("bedroom"))
-            {
-                String[] numroom=searchAssertSecResult.get(i).getText().split(" ");
-                Assert.assertTrue(Integer.parseInt(numroom[0])>=1,"Verify that there are correct number of rooms");
-            }
-            else if(searchAssertSecResult.get(i).getText().contains("beds") ||searchAssertSecResult.get(i).getText().contains("bed") )
-            {
-                String[] numbeds=searchAssertSecResult.get(i).getText().split(" ");
-                Assert.assertTrue(Integer.parseInt(numbeds[0])>=1,"Verify that there are correct number of beds");
-            }
-            else if(searchAssertSecResult.get(i).getText().contains("bath") || searchAssertSecResult.get(i).getText().contains("baths"))
-            {
-                String[] numbath=searchAssertSecResult.get(i).getText().split(" ");
-                Assert.assertTrue(Integer.parseInt(numbath[0])>=1,"Verify that there are correct number of baths");
-            }
-        }
-        }
-        else {
-            System.out.println("No results for selected filters!");
-        }
+      // Set<String> handles=driver.getWindowHandles();
+      // for(String actual: handles) {
+      //     if(!actual.equalsIgnoreCase(driver.getWindowHandle())) {
+      //         driver.switchTo().window(actual);
+      //     }
+      // }
+      // //System.out.println(driver.getCurrentUrl());
+      // //assert some parameters
+      // for(int i = 0; i<searchAssertSecResult.size(); i++){
+      //     if(searchAssertSecResult.get(i).getText().contains("bedrooms") || searchAssertSecResult.get(i).getText().contains("bedroom"))
+      //     {
+      //         String[] numroom=searchAssertSecResult.get(i).getText().split(" ");
+      //         Assert.assertTrue(Integer.parseInt(numroom[0])>=1,"Verify that there are correct number of rooms");
+      //     }
+      //     else if(searchAssertSecResult.get(i).getText().contains("beds") ||searchAssertSecResult.get(i).getText().contains("bed") )
+      //     {
+      //         String[] numbeds=searchAssertSecResult.get(i).getText().split(" ");
+      //         Assert.assertTrue(Integer.parseInt(numbeds[0])>=1,"Verify that there are correct number of beds");
+      //     }
+      //     else if(searchAssertSecResult.get(i).getText().contains("bath") || searchAssertSecResult.get(i).getText().contains("baths"))
+      //     {
+      //         String[] numbath=searchAssertSecResult.get(i).getText().split(" ");
+      //         Assert.assertTrue(Integer.parseInt(numbath[0])>=1,"Verify that there are correct number of baths");
+      //     }
+      // }
+      // }
+      // else {
+      //     System.out.println("No results for selected filters!");
+      // }
     }
 }

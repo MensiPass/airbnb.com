@@ -31,7 +31,7 @@ public class FilterSteps extends BaseSteps {
     }
 
     @When("User specifies min price {string} and max price {string}")
-    public void userSpecifiesMinPriceAndMaxPrice(String minPrice, String maxPrice)  {
+    public void userSpecifiesMinPriceAndMaxPrice(String minPrice, String maxPrice) throws InterruptedException {
         new FilterPage(driver).setPrice(minPrice,maxPrice);
     }
 

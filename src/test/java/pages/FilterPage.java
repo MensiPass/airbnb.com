@@ -307,42 +307,39 @@ public class FilterPage extends BasePage {
             }
         }
     }
-    public void filterSearch() throws Exception {
-      //  click(searchFilterButton,"Click filter search");
-        //click on one search result
-      // Thread.sleep(5000);
-      // if (searchFilterResults.size() >0){
-      //     click(searchFilterResults.get(1), "Click second result");
-      // Thread.sleep(5000);
-
-      // Set<String> handles=driver.getWindowHandles();
-      // for(String actual: handles) {
-      //     if(!actual.equalsIgnoreCase(driver.getWindowHandle())) {
-      //         driver.switchTo().window(actual);
-      //     }
-      // }
-      // //System.out.println(driver.getCurrentUrl());
-      // //assert some parameters
-      // for(int i = 0; i<searchAssertSecResult.size(); i++){
-      //     if(searchAssertSecResult.get(i).getText().contains("bedrooms") || searchAssertSecResult.get(i).getText().contains("bedroom"))
-      //     {
-      //         String[] numroom=searchAssertSecResult.get(i).getText().split(" ");
-      //         Assert.assertTrue(Integer.parseInt(numroom[0])>=1,"Verify that there are correct number of rooms");
-      //     }
-      //     else if(searchAssertSecResult.get(i).getText().contains("beds") ||searchAssertSecResult.get(i).getText().contains("bed") )
-      //     {
-      //         String[] numbeds=searchAssertSecResult.get(i).getText().split(" ");
-      //         Assert.assertTrue(Integer.parseInt(numbeds[0])>=1,"Verify that there are correct number of beds");
-      //     }
-      //     else if(searchAssertSecResult.get(i).getText().contains("bath") || searchAssertSecResult.get(i).getText().contains("baths"))
-      //     {
-      //         String[] numbath=searchAssertSecResult.get(i).getText().split(" ");
-      //         Assert.assertTrue(Integer.parseInt(numbath[0])>=1,"Verify that there are correct number of baths");
-      //     }
-      // }
-      // }
-      // else {
-      //     System.out.println("No results for selected filters!");
-      // }
+    public void filterSearch() throws Exception {click(searchFilterButton,"Click filter search");//click on one search result
+       Thread.sleep(5000);
+       if (searchFilterResults.size() >0){
+           click(searchFilterResults.get(1), "Click second result");
+           Thread.sleep(3000);
+           Set<String> handles=driver.getWindowHandles();
+           for(String actual: handles) {
+               if(!actual.equalsIgnoreCase(driver.getWindowHandle())) {
+                   driver.switchTo().window(actual);
+               }
+           }
+       //System.out.println(driver.getCurrentUrl());
+       //assert some parameters
+       for(int i = 0; i<searchAssertSecResult.size(); i++){
+           if(searchAssertSecResult.get(i).getText().contains("bedrooms") || searchAssertSecResult.get(i).getText().contains("bedroom"))
+           {
+               String[] numroom=searchAssertSecResult.get(i).getText().split(" ");
+               Assert.assertTrue(Integer.parseInt(numroom[0])>=1,"Verify that there are correct number of rooms");
+           }
+           else if(searchAssertSecResult.get(i).getText().contains("beds") ||searchAssertSecResult.get(i).getText().contains("bed") )
+           {
+               String[] numbeds=searchAssertSecResult.get(i).getText().split(" ");
+               Assert.assertTrue(Integer.parseInt(numbeds[0])>=1,"Verify that there are correct number of beds");
+           }
+           else if(searchAssertSecResult.get(i).getText().contains("bath") || searchAssertSecResult.get(i).getText().contains("baths"))
+           {
+               String[] numbath=searchAssertSecResult.get(i).getText().split(" ");
+               Assert.assertTrue(Integer.parseInt(numbath[0])>=1,"Verify that there are correct number of baths");
+           }
+       }
+       }
+       else {
+           System.out.println("No results for selected filters!");
+       }
     }
 }

@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-
 import java.util.List;
 
 public class AnywhereStaysPage extends BasePage {
@@ -17,7 +16,6 @@ public class AnywhereStaysPage extends BasePage {
     @FindBy(xpath ="//div[@data-testid='little-search']//button//div[text()='Anywhere']")
     WebElement anywhereButton;
     String regionField ="//div[@id='locationInspirationsSectionID']//span[text()='$$']//parent::label";
-
     @FindBy(xpath ="//button[@aria-label='Move forward to switch to the next month.']")
     WebElement nextArrowCalendar;
     String date = "//div[@data-testid='calendar-day-$$']"; //date to select
@@ -41,16 +39,11 @@ public class AnywhereStaysPage extends BasePage {
     WebElement petsAdd;
     @FindBy(xpath = "//button[@data-testid='structured-search-input-search-button']")
     WebElement searchButton;
-    @FindBy(xpath = "//div[@data-testid='little-search']/button[1]/div")
-    String searchResults;
     @FindBy(css = "[id='tab--tabs--1']") //flex date button in calendar
     WebElement flexDates;
-   String flexWeekEnd = "label[id='flexible_trip_lengths-weekend_trip']"; //flex date weekend option in calendar
-
+    String flexWeekEnd = "label[id='flexible_trip_lengths-weekend_trip']"; //flex date weekend option in calendar
     String flexWeek = "label[id='flexible_trip_lengths-one_week']"; //flex date week option in calendar
-
     String flexMonth = "label[id='flexible_trip_lengths-one_month']"; //flex date month option in calendar
-
     String flexMonthSelect = "//div[@id='flexible_trip_dates-$$']";//select month for flex dates option
     @FindBy(xpath ="//button[@aria-label='Next']")
     WebElement nextArrowFlexCalendar;

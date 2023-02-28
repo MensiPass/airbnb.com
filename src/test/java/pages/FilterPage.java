@@ -1,13 +1,9 @@
 package pages;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-
-import java.awt.*;
 import java.util.List;
 import java.util.Set;
 
@@ -22,9 +18,7 @@ public class FilterPage extends BasePage {
     @FindBy(css="input[id='price_filter_max']")
     WebElement maxPriceField;
     String minPriceScrollButton="//button[@aria-label='Minimum Price']";
-
    String maxPriceScrollButton="//button[@aria-label='Minimum Price']";
-
    String placeTypeCheck="//input[@name='$$']";
     String placeRooms="//div[@aria-label='Bedrooms']//div[@id='menuItemButton-$$']";
     String placeBeds= "//div[@aria-label='Beds']//div[@id='menuItemButton-$$']";
@@ -41,9 +35,6 @@ public class FilterPage extends BasePage {
     WebElement selfCheckField;
     String accesibilityMoreButton="//section//h2[text()='Accessibility features']//parent::div//parent::section//button/span[text()='Show more']";
     String entranceField="//input[@name='$$']//parent::span//span";
-    String accBedroomField="//input[@name='$$']//parent::span//span";
-    String accessBathField="//input[@name='$$']//parent::span//span";
-    String addEquipmentField="//input[@name='$$']//parent::span//span";
     @FindBy(xpath="//button[contains(@aria-describedby,'switch-superhost')]")
     WebElement superHostCheck;
     @FindBy(xpath="//button[contains(@aria-describedby,'switch-tier')]")
@@ -94,15 +85,7 @@ public class FilterPage extends BasePage {
             }
         }
         Thread.sleep(2000);
-       // minPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
-       // minPriceField.sendKeys(Keys.BACK_SPACE);
-       // minPriceField.sendKeys(minPrice);
-
-       // maxPriceField.sendKeys(Keys.CONTROL, Keys.chord("a"));
-       // maxPriceField.sendKeys(Keys.BACK_SPACE);
-       // maxPriceField.sendKeys(maxPrice);
-
-        //this did not work
+        // did not work
        // minPriceField.clear();
        // maxPriceField.clear();
        // Thread.sleep(5000);
@@ -228,53 +211,45 @@ public class FilterPage extends BasePage {
         String accessBathroomField = updateXpathValue(entranceField, accessBaths);
         String addaptiveField = updateXpathValue(entranceField, addaptiveEquipment);
         if((entranceParking!=null && !(entranceParking.isEmpty()))) {
-            if (entranceParking != null || !(entranceParking.isEmpty())) {
-                while (true) {
-                    if (elementExistsByXpath(entranceParkingField)) {
-                        click(driver.findElement(By.xpath(entranceParkingField)), "Select guest entrance and parking");
-                        break;
-                    } else {
-                        new BasePage(driver).scroll();
-                    }
+            while (true) {
+                if (elementExistsByXpath(entranceParkingField)) {
+                    click(driver.findElement(By.xpath(entranceParkingField)), "Select guest entrance and parking");
+                    break;
+                } else {
+                    new BasePage(driver).scroll();
                 }
             }
         }
          if (accessBedroom!=null && !(accessBedroom.isEmpty())){
-            if (accessBedroom != null || !(accessBedroom.isEmpty())) {
-                while (true) {
-                    if (elementExistsByXpath(accessBedroomField)) {
-                        click(driver.findElement(By.xpath(accessBedroomField)), "Select bedroom");
-                        break;
-                    } else {
-                        new BasePage(driver).scroll();
-                    }
-                }
-            }
+             while (true) {
+                 if (elementExistsByXpath(accessBedroomField)) {
+                     click(driver.findElement(By.xpath(accessBedroomField)), "Select bedroom");
+                     break;
+                 } else {
+                     new BasePage(driver).scroll();
+                 }
+             }
         }
         if (accessBaths!=null && !(accessBaths.isEmpty())) {
-            if (accessBaths != null || !(accessBaths.isEmpty())) {
-                while (true) {
-                    if (elementExistsByXpath(accessBathroomField)) {
-                        click(driver.findElement(By.xpath(accessBathroomField)), "Select baths");
-                        break;
-                    } else {
-                        new BasePage(driver).scroll();
-                    }
+            while (true) {
+                if (elementExistsByXpath(accessBathroomField)) {
+                    click(driver.findElement(By.xpath(accessBathroomField)), "Select baths");
+                    break;
+                } else {
+                    new BasePage(driver).scroll();
                 }
             }
         }
          if (addaptiveEquipment!=null && !(addaptiveEquipment.isEmpty())) {
-            if (addaptiveEquipment != null || !(addaptiveEquipment.isEmpty())) {
-                while (true) {
-                    if (elementExistsByXpath(addaptiveField)) {
-                        click(driver.findElement(By.xpath(addaptiveField)), "Select addaptive equipment");
-                        break;
-                    } else {
-                        new BasePage(driver).scroll();
-                    }
-                }
-            }
-        }
+             while (true) {
+                 if (elementExistsByXpath(addaptiveField)) {
+                     click(driver.findElement(By.xpath(addaptiveField)), "Select addaptive equipment");
+                     break;
+                 } else {
+                     new BasePage(driver).scroll();
+                 }
+             }
+         }
     }
     public void setTopTierStays(String superHost, String plus) throws Exception {
         new BasePage(driver).scroll();

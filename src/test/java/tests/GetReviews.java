@@ -25,10 +25,13 @@ public class GetReviews extends BaseSteps {
             quit();
         }
     }
+    String apartmentListContainer="//div[@data-testid='card-container']";
+    String ratedApartment="//div[@data-plugin-in-point-id='TITLE_DEFAULT']//button[contains(@aria-label,'Rated')]";
+    String ratedData="//div[@role='dialog']//h2";
     @Test(enabled=true)
     public void getReviews() throws InterruptedException {
         //click on some apartment on homepage and return its reviews
-        List<WebElement> apartmentList= driver.findElements(By.xpath("//div[@data-testid='card-container']"));
+        List<WebElement> apartmentList= driver.findElements(By.xpath(apartmentListContainer));
         if (apartmentList.size() >0) {
             apartmentList.get(2).click();//get third apartment form the list
             Thread.sleep(5000);
@@ -38,9 +41,9 @@ public class GetReviews extends BaseSteps {
                     driver.switchTo().window(actual);
                 }
             }
-            if(driver.findElement(By.xpath("//div[@data-plugin-in-point-id='TITLE_DEFAULT']//button[contains(@aria-label,'Rated')]"))!=null) {
-                driver.findElement(By.xpath("//div[@data-plugin-in-point-id='TITLE_DEFAULT']//button[contains(@aria-label,'Rated')]")).click();
-                String rate = driver.findElement(By.xpath("//div[@role='dialog']//h2")).getText();
+            if(driver.findElement(By.xpath(ratedApartment))!=null) {
+                driver.findElement(By.xpath(ratedApartment)).click();
+                String rate = driver.findElement(By.xpath(ratedData)).getText();
                 String[] ratereviews = rate.split("·");
                 System.out.println("The selected stay has " + ratereviews[0] + " star rate and " + ratereviews[1] + " reviews.");
                 Assert.assertTrue((ratereviews[0].trim()).equalsIgnoreCase("5.0"));

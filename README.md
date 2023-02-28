@@ -9,6 +9,8 @@ Testing airbnb.com website with Java POM, Cucumber and Allure reporting
 
 [Running test cases from editor](#Running-test-cases-from-editor)
 
+[Test reports](#Test-reports)
+
    
 ## Technologies
 
@@ -32,6 +34,10 @@ Select xml file for specific test case and with right click  select Run
 
 
 Testing case should run and execute selected test case
+
+##Test reports
+
+To see test reports in terminal run allure serve command
 
 
 ## Folders and files

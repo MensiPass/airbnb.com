@@ -42,7 +42,15 @@ public class CategoryCarousel extends BaseSteps{
                 if (lst.size() >0){
                     String subtitle=driver.findElement(By.xpath(catSubtitle)).getText();
                     String sub=subtitle.toLowerCase();
-                    Assert.assertTrue(sub.contains(checkword),"Verify that there is view word in subtitle");
+                    String[] newsub=sub.split(" ");
+                    StringBuilder compareSub = new StringBuilder();
+                    for(int i=2;i<newsub.length;i++){
+                        compareSub.append(newsub[i]+" ");
+                    }
+                    String newCompareSub=compareSub.toString();
+                    newCompareSub.trim();
+                    checkword.trim();
+                    Assert.assertTrue(newCompareSub.contains(checkword),"Check if results are from correct category.");
                 }
                 else {
                     System.out.println("No results for selected category!");

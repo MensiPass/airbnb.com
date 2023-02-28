@@ -93,12 +93,15 @@ public class FilterPage extends BasePage {
        // maxPriceField.sendKeys(maxPrice);
     }
     public void setPlaceType(String placeType) throws Exception {
-        String placetype=updateXpathValue(placeTypeCheck,placeType);
         new BasePage(driver).scroll();
         Thread.sleep(2000);
         if((placeType!=null && !(placeType.isEmpty()))) {
-            if (elementExistsByXpath(placetype)) {
-                driver.findElement(By.xpath(placetype)).click();
+            String[] alllPlaceType=placeType.split(",");
+            for(int i=0;i<alllPlaceType.length;i++) {
+                String placetype=updateXpathValue(placeTypeCheck,alllPlaceType[i]);
+                if (elementExistsByXpath(placetype)) {
+                    driver.findElement(By.xpath(placetype)).click();
+                }
             }
         }
     }
@@ -125,15 +128,19 @@ public class FilterPage extends BasePage {
         }
     }
     public void setPropertyType(String propertyType) throws Exception {
-        String proptype=updateXpathValue(propertyFieldType,propertyType);
+
         new BasePage(driver).scroll();
         if((propertyType!=null && !(propertyType.isEmpty()))) {
-            while (true) {
-                if (elementExistsByXpath(proptype)) {
-                    click(driver.findElement(By.xpath(proptype)), "Property type click");
-                    break;
-                } else {
-                    new BasePage(driver).scroll();
+            String[] alllPropertyType=propertyType.split(",");
+            for(int i=0;i<alllPropertyType.length;i++) {
+                String proptype = updateXpathValue(propertyFieldType, alllPropertyType[i]);
+                while (true) {
+                    if (elementExistsByXpath(proptype)) {
+                        click(driver.findElement(By.xpath(proptype)), "Property type click");
+                        break;
+                    } else {
+                        new BasePage(driver).scroll();
+                    }
                 }
             }
         }
@@ -143,47 +150,59 @@ public class FilterPage extends BasePage {
         if(elementExistsByXpath(amenitiesMoreButton)) {
             click(driver.findElement(By.xpath(amenitiesMoreButton)), "Show more button for essentials");
         }
-        String essCheck=updateXpathValue(essentialsField,essentials);
-        String featuresCheck=updateXpathValue(featuresField,features);
-        String locationCheck=updateXpathValue(amenitiesLocation,location);
-        String safetyCheck=updateXpathValue(amenitiesSafety,safety);
         if((essentials!=null && !(essentials.isEmpty()))) {
-            while (true) {
-                if (elementExistsByXpath(essCheck)) {
-                    click(driver.findElement(By.xpath(essCheck)), "Select essentials");
-                    break;
-                } else {
-                    new BasePage(driver).scroll();
+            String[] alllEssentials=essentials.split(",");
+            for(int i=0;i<alllEssentials.length;i++) {
+                while (true) {
+                    String essCheck=updateXpathValue(essentialsField,alllEssentials[i]);
+                    if (elementExistsByXpath(essCheck)) {
+                        click(driver.findElement(By.xpath(essCheck)), "Select essentials");
+                        break;
+                    } else {
+                        new BasePage(driver).scroll();
+                    }
                 }
             }
         }
         if((features!=null && !(features.isEmpty()))) {
-            while (true) {
-                if (elementExistsByXpath(featuresCheck)) {
-                    click(driver.findElement(By.xpath(featuresCheck)), "Select features");
-                    break;
-                } else {
-                    new BasePage(driver).scroll();
+            String[] alllFeatures=features.split(",");
+            for(int i=0;i<alllFeatures.length;i++) {
+                String featuresCheck=updateXpathValue(featuresField,alllFeatures[i]);
+                while (true) {
+                    if (elementExistsByXpath(featuresCheck)) {
+                        click(driver.findElement(By.xpath(featuresCheck)), "Select features");
+                        break;
+                    } else {
+                        new BasePage(driver).scroll();
+                    }
                 }
             }
         }
         if((location!=null && !(location.isEmpty()))) {
-            while (true) {
-                if (elementExistsByXpath(locationCheck)) {
-                    click(driver.findElement(By.xpath(locationCheck)), "Select location");
-                    break;
-                } else {
-                    new BasePage(driver).scroll();
+            String[] alllLocation=location.split(",");
+            for(int i=0;i<alllLocation.length;i++) {
+                String locationCheck=updateXpathValue(amenitiesLocation,alllLocation[i]);
+                while (true) {
+                    if (elementExistsByXpath(locationCheck)) {
+                        click(driver.findElement(By.xpath(locationCheck)), "Select location");
+                        break;
+                    } else {
+                        new BasePage(driver).scroll();
+                    }
                 }
             }
         }
         if((safety!=null && !(safety.isEmpty()))) {
-            while (true) {
-                if (elementExistsByXpath(safetyCheck)) {
-                    click(driver.findElement(By.xpath(safetyCheck)), "Select safety");
-                    break;
-                } else {
-                    new BasePage(driver).scroll();
+            String[] alllSafety=safety.split(",");
+            for(int i=0;i<alllSafety.length;i++) {
+                String safetyCheck=updateXpathValue(amenitiesSafety,alllSafety[i]);
+                while (true) {
+                    if (elementExistsByXpath(safetyCheck)) {
+                        click(driver.findElement(By.xpath(safetyCheck)), "Select safety");
+                        break;
+                    } else {
+                        new BasePage(driver).scroll();
+                    }
                 }
             }
         }
@@ -206,47 +225,59 @@ public class FilterPage extends BasePage {
         if (elementExistsByXpath(accesibilityMoreButton)) {
             click(driver.findElement(By.xpath(accesibilityMoreButton)), "Show more button for accessibility features");
         }
-        String entranceParkingField = updateXpathValue(entranceField, entranceParking);
-        String accessBedroomField = updateXpathValue(entranceField, accessBedroom);
-        String accessBathroomField = updateXpathValue(entranceField, accessBaths);
-        String addaptiveField = updateXpathValue(entranceField, addaptiveEquipment);
         if((entranceParking!=null && !(entranceParking.isEmpty()))) {
-            while (true) {
-                if (elementExistsByXpath(entranceParkingField)) {
-                    click(driver.findElement(By.xpath(entranceParkingField)), "Select guest entrance and parking");
-                    break;
-                } else {
-                    new BasePage(driver).scroll();
+            String[] alllEntrancepark=entranceParking.split(",");
+            for(int i=0;i<alllEntrancepark.length;i++) {
+                String entranceParkingField = updateXpathValue(entranceField, alllEntrancepark[i]);
+                while (true) {
+                    if (elementExistsByXpath(entranceParkingField)) {
+                        click(driver.findElement(By.xpath(entranceParkingField)), "Select guest entrance and parking");
+                        break;
+                    } else {
+                        new BasePage(driver).scroll();
+                    }
                 }
             }
         }
          if (accessBedroom!=null && !(accessBedroom.isEmpty())){
-             while (true) {
-                 if (elementExistsByXpath(accessBedroomField)) {
-                     click(driver.findElement(By.xpath(accessBedroomField)), "Select bedroom");
-                     break;
-                 } else {
-                     new BasePage(driver).scroll();
+             String[] alllAccessbedroom=accessBedroom.split(",");
+             for(int i=0;i<alllAccessbedroom.length;i++) {
+                 String accessBedroomField = updateXpathValue(entranceField, alllAccessbedroom[i]);
+                 while (true) {
+                     if (elementExistsByXpath(accessBedroomField)) {
+                         click(driver.findElement(By.xpath(accessBedroomField)), "Select bedroom");
+                         break;
+                     } else {
+                         new BasePage(driver).scroll();
+                     }
                  }
              }
         }
         if (accessBaths!=null && !(accessBaths.isEmpty())) {
-            while (true) {
-                if (elementExistsByXpath(accessBathroomField)) {
-                    click(driver.findElement(By.xpath(accessBathroomField)), "Select baths");
-                    break;
-                } else {
-                    new BasePage(driver).scroll();
+            String[] alllAccessBathroom = accessBaths.split(",");
+            for (int i = 0; i < alllAccessBathroom.length; i++) {
+                String accessBathroomField = updateXpathValue(entranceField, alllAccessBathroom[i]);
+                while (true) {
+                    if (elementExistsByXpath(accessBathroomField)) {
+                        click(driver.findElement(By.xpath(accessBathroomField)), "Select baths");
+                        break;
+                    } else {
+                        new BasePage(driver).scroll();
+                    }
                 }
             }
         }
          if (addaptiveEquipment!=null && !(addaptiveEquipment.isEmpty())) {
-             while (true) {
-                 if (elementExistsByXpath(addaptiveField)) {
-                     click(driver.findElement(By.xpath(addaptiveField)), "Select addaptive equipment");
-                     break;
-                 } else {
-                     new BasePage(driver).scroll();
+             String[] alllAddaptiveEquipment=addaptiveEquipment.split(",");
+             for(int i=0;i<alllAddaptiveEquipment.length;i++) {
+                 String addaptiveField = updateXpathValue(entranceField, alllAddaptiveEquipment[i]);
+                 while (true) {
+                     if (elementExistsByXpath(addaptiveField)) {
+                         click(driver.findElement(By.xpath(addaptiveField)), "Select addaptive equipment");
+                         break;
+                     } else {
+                         new BasePage(driver).scroll();
+                     }
                  }
              }
          }
@@ -269,21 +300,24 @@ public class FilterPage extends BasePage {
         if((lang!=null && !(lang.isEmpty()))) {
             if (elementExistsByXpath(hostLangMore)) {
                 click(driver.findElement(By.xpath(hostLangMore)), "Show more button for host language");
-
             }
-            String languageH = updateXpathValue(langOption, lang);
-            while (true) {
-                if (elementExistsByXpath(languageH)) {
-                    click(driver.findElement(By.xpath(languageH)), "Select host language");
-                    break;
-                } else {
-                    new BasePage(driver).scroll();
+            String[] alllangs=lang.split(",");
+            for(int i=0;i<alllangs.length;i++) {
+                String languageH = updateXpathValue(langOption, alllangs[i]);
+                while (true) {
+                    if (elementExistsByXpath(languageH)) {
+                        click(driver.findElement(By.xpath(languageH)), "Select host language");
+                        break;
+                    } else {
+                        new BasePage(driver).scroll();
+                    }
                 }
             }
         }
     }
-    public void filterSearch() throws Exception {click(searchFilterButton,"Click filter search");//click on one search result
-       Thread.sleep(5000);
+    public void filterSearch() throws Exception {
+        click(searchFilterButton,"Click filter search");//click on one search result
+       Thread.sleep(3000);
        if (searchFilterResults.size() >0){
            click(searchFilterResults.get(1), "Click second result");
            Thread.sleep(3000);

@@ -35,7 +35,7 @@ Select xml file for specific test case and with right click  select Run
 
 Testing case should run and execute selected test case
 
-##Test reports
+## Test reports
 
 To see test reports in terminal run allure serve command
 

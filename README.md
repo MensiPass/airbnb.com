@@ -37,7 +37,7 @@ Testing case should run and execute selected test case
 
 ## Test reports
 
-To see test reports in terminal run allure serve command
+To see test reports run allure serve command in terminal
 
 
 ## Folders and files
